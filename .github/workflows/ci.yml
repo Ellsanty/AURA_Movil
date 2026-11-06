@@ -1,0 +1,51 @@
+name: Compilación AURA Móvil (Android e iOS)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    name: Compilar APK de Android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Otorgar permisos a gradlew
+        run: chmod +x Android/gradlew
+
+      - name: Compilar APK Debug
+        run: |
+          cd Android
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Guardar APK como Artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: Android/app/build/outputs/apk/debug/app-debug.apk
+
+  build-ios:
+    name: Validar y Compilar iOS (macOS)
+    runs-on: macos-14
+    steps:
+      - name: Descargar código fuente
+        uses: actions/checkout@v4
+
+      - name: Seleccionar versión de Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Compilar proyecto Xcode de iOS
+        run: |
+          cd iOS
+          xcodebuild -project AURA.xcodeproj -scheme AURA -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO build

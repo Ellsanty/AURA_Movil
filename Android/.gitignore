@@ -1,0 +1,16 @@
+# Android build artifacts and machine-specific settings
+.gradle/
+.idea/
+build/
+*/build/
+local.properties
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+*.jks
+*.keystore
+*.log
+.aura-studio-system/
+.aura-studio.properties
+.aura-studio.vmoptions

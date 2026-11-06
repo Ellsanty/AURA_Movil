@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AURA móvil</string>
+    <string name="accessibility_service_description">Servicio de asistencia visual discreto para análisis rápido de pantalla.</string>
+</resources>
